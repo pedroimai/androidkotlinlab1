@@ -11,12 +11,11 @@ import io.reactivex.schedulers.Schedulers
 class MoviePresenter(var restService: MovieRestServiceApi, var view: MovieContract.View) : MovieContract.UserActions {
 
     override fun loadMovies() {
-        val subscription =
-                restService.getMovies()
+        restService.getMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter {movie -> fakeValidation(movie)}
-                .map{movie ->fakeMap(movie)}
+                .filter { movie -> fakeValidation(movie) }
+                .map { movie -> fakeMap(movie) }
                 .subscribe(
                         { result -> view.showMovie(result) },
                         { pau -> android.util.Log.d("TESTE", pau.message) },
@@ -25,15 +24,14 @@ class MoviePresenter(var restService: MovieRestServiceApi, var view: MovieContra
     }
 
     override fun openMovieDetail(movie: Movie) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view.showMovieDetail(movie)
     }
 
-
-    fun fakeValidation(param:Movie):Boolean{
+    fun fakeValidation(param: Movie): Boolean {
         return param.year < 2000
     }
 
-    fun fakeMap(param:Movie):Movie{
+    fun fakeMap(param: Movie): Movie {
         param.title += " - Uau!"
         param.genre += " - Nuss!"
 

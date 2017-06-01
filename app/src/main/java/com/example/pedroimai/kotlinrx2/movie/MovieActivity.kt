@@ -7,6 +7,7 @@ import com.example.pedroimai.kotlinrx2.MyApplication
 import com.example.pedroimai.kotlinrx2.R
 import com.example.pedroimai.kotlinrx2.data.Movie
 import com.example.pedroimai.kotlinrx2.movie.dagger.DaggerMovieComponent
+import com.example.pedroimai.kotlinrx2.movie.dagger.MovieComponent
 import com.example.pedroimai.kotlinrx2.movie.dagger.MovieModule
 import com.example.pedroimai.kotlinrx2.moviedetail.MovieDetailActivity
 import kotlinx.android.synthetic.main.main_activity.*
@@ -22,10 +23,7 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        DaggerMovieComponent.builder()
-                .applicationComponent((application as MyApplication).getAppComponent())
-                .movieModule(MovieModule(this))
-                .build().inject(this)
+        component.inject(this)
         initMovieList()
         presenter.loadMovies()
     }
@@ -35,15 +33,26 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
         listAdapter.notifyDataSetChanged()
     }
 
+    override fun showMovieDetail(movie: Movie) {
+        startActivity<MovieDetailActivity>(
+                MovieDetailActivity.ID to movie.genre,
+                MovieDetailActivity.MOVIE_TITLE to movie.title)
+    }
+
     fun initMovieList() {
         with(movies_list) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(baseContext)
             listAdapter = MovieAdapter(){
-                startActivity<MovieDetailActivity>(MovieDetailActivity.ID to it.genre,
-                        MovieDetailActivity.MOVIE_TITLE to it.title)
+                presenter.openMovieDetail(it)
             }
             adapter = listAdapter
         }
     }
+
+    private val component: MovieComponent
+        get() = DaggerMovieComponent.builder()
+                .applicationComponent((application as MyApplication).component)
+                .movieModule(MovieModule(this))
+                .build()
 }

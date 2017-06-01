@@ -8,17 +8,18 @@ import android.app.Application
 import com.example.dagger.kotlin.ApplicationComponent
 import com.example.dagger.kotlin.DaggerApplicationComponent
 
-class MyApplication: Application() {
-    lateinit var component: ApplicationComponent
+class MyApplication : Application() {
+    val component: ApplicationComponent
+        get() = DaggerApplicationComponent.builder()
+                .androidModule(AndroidModule(this))
+                .build()
 
     override fun onCreate() {
         super.onCreate()
-        val component = DaggerApplicationComponent.builder().androidModule(AndroidModule(this)).build()
         component.inject(this)
-        this.component = component
     }
 
-    fun getAppComponent():ApplicationComponent {
+    fun getAppComponent(): ApplicationComponent {
         return component
     }
 
