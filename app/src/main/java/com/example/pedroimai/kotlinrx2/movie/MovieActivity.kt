@@ -8,10 +8,12 @@ import com.example.pedroimai.kotlinrx2.R
 import com.example.pedroimai.kotlinrx2.data.Movie
 import com.example.pedroimai.kotlinrx2.movie.dagger.DaggerMovieComponent
 import com.example.pedroimai.kotlinrx2.movie.dagger.MovieModule
+import com.example.pedroimai.kotlinrx2.moviedetail.MovieDetailActivity
 import kotlinx.android.synthetic.main.main_activity.*
 import javax.inject.Inject
+import org.jetbrains.anko.startActivity
 
-class MainActivity : AppCompatActivity(), MovieContract.View {
+class MovieActivity : AppCompatActivity(), MovieContract.View {
     @Inject
     lateinit var presenter: MovieContract.UserActions
     lateinit var listAdapter: MovieAdapter
@@ -37,7 +39,10 @@ class MainActivity : AppCompatActivity(), MovieContract.View {
         with(movies_list) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(baseContext)
-            listAdapter = MovieAdapter()
+            listAdapter = MovieAdapter(){
+                startActivity<MovieDetailActivity>(MovieDetailActivity.ID to it.genre,
+                        MovieDetailActivity.MOVIE_TITLE to it.title)
+            }
             adapter = listAdapter
         }
     }

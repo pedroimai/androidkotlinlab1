@@ -11,13 +11,13 @@ import kotlinx.android.synthetic.main.movie_list_item.view.*
 /**
  * Created by Pedro Imai on 29/05/2017.
  */
-class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(val itemClick: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     var mItems: MutableList<Movie> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent?.context)
-        return ViewHolder(layoutInflater.inflate(R.layout.movie_list_item, parent, false))
+        return ViewHolder(layoutInflater.inflate(R.layout.movie_list_item, parent, false),itemClick)
     }
 
     override fun getItemCount(): Int {
@@ -25,17 +25,19 @@ class MovieAdapter() : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mItems[position]
-        holder.title.setText(item.title)
-        holder.genre.setText(item.genre)
-        holder.year.setText(item.year.toString())
+        holder.bindMovie(mItems[position])
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val container = view.container
-        val title = view.title
-        val genre = view.genre
-        val year = view.year
+    class ViewHolder(view: View, val itemClick: (Movie) -> Unit) : RecyclerView.ViewHolder(view) {
+
+        fun bindMovie(movie: Movie) {
+            with(movie) {
+                itemView.title.text = movie.title
+                itemView.genre.setText(movie.genre)
+                itemView.year.setText(movie.year.toString())
+                itemView.setOnClickListener { itemClick(this) }
+            }
+        }
     }
 
     fun add(item: Movie) {

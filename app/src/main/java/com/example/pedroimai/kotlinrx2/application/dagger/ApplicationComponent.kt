@@ -4,7 +4,6 @@ import android.app.Application
 import com.example.pedroimai.kotlinrx2.AndroidModule
 import com.example.pedroimai.kotlinrx2.data.MovieRestServiceApi
 import com.example.pedroimai.kotlinrx2.data.MovieRestServiceModule
-import com.example.pedroimai.kotlinrx2.movie.MainActivity
 import dagger.Component
 import javax.inject.Singleton
 

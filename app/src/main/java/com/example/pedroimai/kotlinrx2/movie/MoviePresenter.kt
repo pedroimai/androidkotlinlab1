@@ -24,6 +24,11 @@ class MoviePresenter(var restService: MovieRestServiceApi, var view: MovieContra
                 )
     }
 
+    override fun openMovieDetail(movie: Movie) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+
     fun fakeValidation(param:Movie):Boolean{
         return param.year < 2000
     }

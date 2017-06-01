@@ -12,5 +12,6 @@ interface MovieContract{
 
     interface UserActions{
         fun loadMovies()
+        fun openMovieDetail(movie:Movie)
     }
 }
