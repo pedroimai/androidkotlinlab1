@@ -1,5 +1,6 @@
 package com.example.pedroimai.kotlinrx2.movie
 
+import android.util.Log
 import com.example.pedroimai.kotlinrx2.data.Movie
 import com.example.pedroimai.kotlinrx2.data.MovieRestServiceApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,8 +19,8 @@ class MoviePresenter(var restService: MovieRestServiceApi, var view: MovieContra
                 .map { movie -> fakeMap(movie) }
                 .subscribe(
                         { result -> view.showMovie(result) },
-                        { pau -> android.util.Log.d("TESTE", pau.message) },
-                        { android.util.Log.d("TESTE", "complete!") }
+                        { pau -> Log.d("TESTE", pau.message) },
+                        { Log.d("TESTE", "complete!") }
                 )
     }
 

@@ -34,18 +34,14 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
     }
 
     override fun showMovieDetail(movie: Movie) {
-        startActivity<MovieDetailActivity>(
-                MovieDetailActivity.ID to movie.genre,
-                MovieDetailActivity.MOVIE_TITLE to movie.title)
+        startActivity<MovieDetailActivity>(MovieDetailActivity.MOVIE_TITLE to movie.title)
     }
 
     fun initMovieList() {
         with(movies_list) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(baseContext)
-            listAdapter = MovieAdapter(){
-                presenter.openMovieDetail(it)
-            }
+            listAdapter = MovieAdapter{presenter.openMovieDetail(it)}
             adapter = listAdapter
         }
     }

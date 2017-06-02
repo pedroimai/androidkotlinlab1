@@ -9,8 +9,7 @@ import com.example.pedroimai.kotlinrx2.R
 class MovieDetailActivity : AppCompatActivity() {
 
     companion object {
-        val ID = "MovieDetailActivity:id"
-        val MOVIE_TITLE = "MovieDetailActivity:movieTitle"
+        val MOVIE_TITLE = "MovieDetailActivity:movietitle"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

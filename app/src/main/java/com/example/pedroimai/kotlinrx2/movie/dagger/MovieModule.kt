@@ -17,15 +17,10 @@ import dagger.Provides
 class MovieModule(var view:MovieContract.View) {
 
     @Provides @ScreenScope
-    internal fun provideView(): MovieContract.View {
-        return view
-    }
+    fun provideView(): MovieContract.View = view
 
-//    @Provides fun provideRestService():MovieRestServiceApi{
-//        return MovieRestServiceImpl()
-//    }
-
-    @Provides @ScreenScope fun providePresenter(restService: MovieRestServiceApi, view: MovieContract.View): MovieContract.UserActions {
+    @Provides @ScreenScope
+    fun providePresenter(restService: MovieRestServiceApi, view: MovieContract.View): MovieContract.UserActions {
         return MoviePresenter(restService,view)
     }
 

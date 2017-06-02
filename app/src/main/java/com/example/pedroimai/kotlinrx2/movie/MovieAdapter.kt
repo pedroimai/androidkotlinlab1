@@ -31,11 +31,11 @@ class MovieAdapter(val itemClick: (Movie) -> Unit) : RecyclerView.Adapter<MovieA
     class ViewHolder(view: View, val itemClick: (Movie) -> Unit) : RecyclerView.ViewHolder(view) {
 
         fun bindMovie(movie: Movie) {
-            with(movie) {
-                itemView.title.text = movie.title
-                itemView.genre.setText(movie.genre)
-                itemView.year.setText(movie.year.toString())
-                itemView.setOnClickListener { itemClick(this) }
+            with(itemView) {
+                title.text = movie.title
+                genre.text = movie.genre
+                year.text = movie.year.toString()
+                setOnClickListener { itemClick(movie) }
             }
         }
     }

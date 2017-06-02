@@ -18,9 +18,4 @@ class MyApplication : Application() {
         super.onCreate()
         component.inject(this)
     }
-
-    fun getAppComponent(): ApplicationComponent {
-        return component
-    }
-
 }
