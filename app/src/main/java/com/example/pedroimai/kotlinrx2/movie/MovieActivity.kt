@@ -43,12 +43,24 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
             layoutManager = LinearLayoutManager(baseContext)
             listAdapter = MovieAdapter{presenter.openMovieDetail(it)}
             adapter = listAdapter
+
+
+
         }
     }
+
+
+
 
     private val component: MovieComponent
         get() = DaggerMovieComponent.builder()
                 .applicationComponent((application as MyApplication).component)
                 .movieModule(MovieModule(this))
                 .build()
+
+
+
+
+
+
 }
