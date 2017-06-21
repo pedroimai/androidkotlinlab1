@@ -49,7 +49,7 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
         }
     }
 
-    //teste
+    //teste 2
 
     private val component: MovieComponent
         get() = DaggerMovieComponent.builder()
