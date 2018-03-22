@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pedroimai.kotlinrx2.R
-import com.example.pedroimai.kotlinrx2.data.Movie
 import kotlinx.android.synthetic.main.movie_list_item.view.*
 
 class MovieAdapter(private val itemClick: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
-    private var mItems = mutableListOf<Movie>()
+    private var viewModels = mutableListOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -17,11 +16,11 @@ class MovieAdapter(private val itemClick: (Movie) -> Unit) : RecyclerView.Adapte
     }
 
     override fun getItemCount(): Int {
-        return mItems.size
+        return viewModels.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindMovie(mItems[position])
+        holder.bindMovie(viewModels[position])
     }
 
     class ViewHolder(view: View, val itemClick: (Movie) -> Unit) : RecyclerView.ViewHolder(view) {
@@ -29,14 +28,15 @@ class MovieAdapter(private val itemClick: (Movie) -> Unit) : RecyclerView.Adapte
         fun bindMovie(movie: Movie) {
             with(itemView) {
                 title.text = movie.title
-                genre.text = movie.genre
-                year.text = movie.year.toString()
+                episode_number.text = movie.episodeNumber.toString()
+                release_date.text = movie.releaseDate
                 setOnClickListener { itemClick(movie) }
             }
         }
     }
 
-    fun add(item: Movie) {
-        mItems.add(item)
+    fun addAll(movies:List<Movie>) {
+        viewModels.addAll(movies)
+        notifyDataSetChanged()
     }
 }

@@ -2,24 +2,49 @@ package com.example.pedroimai.kotlinrx2.application.dagger
 
 import android.content.Context
 import com.example.pedroimai.kotlinrx2.application.MyApplication
-import com.example.pedroimai.kotlinrx2.data.MovieApi
-import com.example.pedroimai.kotlinrx2.data.MovieRestServiceModule
+import com.example.pedroimai.kotlinrx2.application.api.StarWarsApi
 import com.example.pedroimai.kotlinrx2.movie.MovieActivity
 import com.example.pedroimai.kotlinrx2.movie.MovieContract
 import com.example.pedroimai.kotlinrx2.movie.MoviePresenter
+import com.example.pedroimai.kotlinrx2.movie.MovieRepository
+import com.example.pedroimai.kotlinrx2.shared.ioScheduler
+import com.example.pedroimai.kotlinrx2.shared.uiScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjectionModule
 import dagger.android.ContributesAndroidInjector
+import io.reactivex.Scheduler
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [ActivitiesBuilder::class, AndroidInjectionModule::class, MovieRestServiceModule::class])
+@Module(includes = [ActivitiesBuilder::class, AndroidInjectionModule::class, MovieApiModule::class])
 class CoreModule(private val app: MyApplication) {
     @Provides @Singleton
     fun provideContext(): Context = app
 
     @Provides @Singleton
     fun provideApplication(): MyApplication = app
+}
+
+@Module
+class MovieApiModule {
+    @Provides
+    @Singleton
+    fun provideApi(): StarWarsApi {
+        return Retrofit.Builder()
+            .client(
+                OkHttpClient.Builder()
+                    .build()
+            )
+            .baseUrl("https://swapi.co/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+            .create(StarWarsApi::class.java)
+    }
 }
 
 @Module
@@ -35,8 +60,13 @@ class MovieModule {
     fun provideView(view: MovieActivity): MovieContract.View = view
 
     @Provides
-    fun providePresenter(restService: MovieApi, view: MovieContract.View): MovieContract.Presenter {
-        return MoviePresenter(restService,view)
+    fun providePresenter(view: MovieContract.View, source: MovieContract.Source ): MovieContract.Presenter {
+        return MoviePresenter(view, uiScheduler, source)
+    }
+
+    @Provides
+    fun provideRespository(api: StarWarsApi): MovieContract.Source {
+        return MovieRepository(api, ioScheduler)
     }
 
 

@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.example.pedroimai.kotlinrx2.R
-import com.example.pedroimai.kotlinrx2.data.Movie
 import com.example.pedroimai.kotlinrx2.moviedetail.MovieDetailActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.main_activity.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class MovieActivity : AppCompatActivity(), MovieContract.View {
-    @Inject
-    lateinit var presenter: MovieContract.Presenter
+    @Inject lateinit var presenter: MovieContract.Presenter
     private lateinit var listAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,16 +20,16 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         initMovieList()
-        presenter.loadMovies()
+        presenter.bind()
     }
 
-    override fun showMovie(movies: Movie) {
-        listAdapter.add(movies)
-        listAdapter.notifyDataSetChanged()
+    override fun showMovies(movies: List<Movie>) {
+        listAdapter.addAll(movies)
     }
 
     override fun showMovieDetail(movie: Movie) {
-        startActivity<MovieDetailActivity>(MovieDetailActivity.MOVIE_TITLE to movie.title)
+        toast("Abrir detalhes de ${movie.title}")
+        //startActivity<MovieDetailActivity>(MovieDetailActivity.MOVIE_TITLE to movie.title)
     }
 
     private fun initMovieList() {
@@ -40,5 +39,10 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
                 layoutManager = LinearLayoutManager(baseContext)
                 adapter = listAdapter
             }
+    }
+
+    override fun onDestroy() {
+        presenter.unbind()
+        super.onDestroy()
     }
 }
