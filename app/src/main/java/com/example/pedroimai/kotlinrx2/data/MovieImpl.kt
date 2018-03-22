@@ -3,11 +3,7 @@ package com.example.pedroimai.kotlinrx2.data
 import io.reactivex.Flowable
 import java.util.concurrent.TimeUnit
 
-/**
- * Created by Pedro Imai on 29/05/2017.
- */
-
-class MovieRestServiceImpl : MovieRestServiceApi {
+class MovieImpl : MovieApi {
 
     override fun getMovies(): Flowable<Movie> {
         val fakeMoviesList: MutableList<Movie> = mutableListOf(
@@ -16,14 +12,6 @@ class MovieRestServiceImpl : MovieRestServiceApi {
                 Movie("Filme 3", "Horror", 2012)
         )
 
-
-        return Flowable.defer {
-            Flowable
-                    //.fromCallable { fakeMoviesList }
-                    .fromIterable(fakeMoviesList)
-                    .delay(3L, TimeUnit.SECONDS)
-        }
-
-
+        return Flowable.fromIterable(fakeMoviesList).delay(3L, TimeUnit.SECONDS)
     }
 }

@@ -1,31 +1,18 @@
 package com.example.pedroimai.kotlinrx2.movie
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pedroimai.kotlinrx2.R
 import com.example.pedroimai.kotlinrx2.data.Movie
 import kotlinx.android.synthetic.main.movie_list_item.view.*
-import kotlin.properties.Delegates
 
-/**
- * Created by Pedro Imai on 29/05/2017.
- */
-class MovieAdapter(val itemClick: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(private val itemClick: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+    private var mItems = mutableListOf<Movie>()
 
-    var mItems: MutableList<Movie> by Delegates.observable(mutableListOf<Movie>()){
-        _,_,_ ->
-            Log.d("TESTE","item adiciondado na lista de filmes!!")
-            notifyDataSetChanged()
-    }
-
-//    var mItems: MutableList<Movie> = mutableListOf()
-
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
         return ViewHolder(layoutInflater.inflate(R.layout.movie_list_item, parent, false),itemClick)
     }
 

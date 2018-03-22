@@ -2,16 +2,13 @@ package com.example.pedroimai.kotlinrx2.movie
 
 import com.example.pedroimai.kotlinrx2.data.Movie
 
-/**
- * Created by Pedro Imai on 30/05/2017.
- */
 interface MovieContract{
     interface View{
         fun showMovie(movies:Movie)
         fun showMovieDetail(movie:Movie)
     }
 
-    interface UserActions{
+    interface Presenter {
         fun loadMovies()
         fun openMovieDetail(movie:Movie)
     }
