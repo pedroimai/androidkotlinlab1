@@ -14,6 +14,7 @@ interface MovieContract{
     }
 
     interface Source {
-        val movies: Flowable<List<Movie>>
+        val flowOfMovies: Flowable<List<Movie>>
+        fun getMovies(onSuccess: (List<Movie>) -> Unit, onError: (Throwable?) -> Unit)
     }
 }

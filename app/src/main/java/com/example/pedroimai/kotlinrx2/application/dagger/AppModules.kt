@@ -3,17 +3,12 @@ package com.example.pedroimai.kotlinrx2.application.dagger
 import android.content.Context
 import com.example.pedroimai.kotlinrx2.application.MyApplication
 import com.example.pedroimai.kotlinrx2.application.api.StarWarsApi
-import com.example.pedroimai.kotlinrx2.movie.MovieActivity
-import com.example.pedroimai.kotlinrx2.movie.MovieContract
-import com.example.pedroimai.kotlinrx2.movie.MoviePresenter
-import com.example.pedroimai.kotlinrx2.movie.MovieRepository
-import com.example.pedroimai.kotlinrx2.shared.ioScheduler
+import com.example.pedroimai.kotlinrx2.movie.*
 import com.example.pedroimai.kotlinrx2.shared.uiScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjectionModule
 import dagger.android.ContributesAndroidInjector
-import io.reactivex.Scheduler
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -61,12 +56,13 @@ class MovieModule {
 
     @Provides
     fun providePresenter(view: MovieContract.View, source: MovieContract.Source ): MovieContract.Presenter {
-        return MoviePresenter(view, uiScheduler, source)
+        //return MovieRxPresenter(view, source)
+        return MoviePresenter(view, source)
     }
 
     @Provides
     fun provideRespository(api: StarWarsApi): MovieContract.Source {
-        return MovieRepository(api, ioScheduler)
+        return MovieRepository(api)
     }
 
 
