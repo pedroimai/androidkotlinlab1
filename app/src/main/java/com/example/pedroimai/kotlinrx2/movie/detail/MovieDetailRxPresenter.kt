@@ -1,35 +1,28 @@
-package com.example.pedroimai.kotlinrx2.movie
+package com.example.pedroimai.kotlinrx2.movie.detail
 
 import android.util.Log
+import com.example.pedroimai.kotlinrx2.movie.MovieDetailContract
 import com.example.pedroimai.kotlinrx2.shared.plusAssign
 import com.example.pedroimai.kotlinrx2.shared.uiScheduler
 import io.reactivex.disposables.CompositeDisposable
 
-class MovieRxPresenter(
-    private val view: MovieContract.View,
-    private val source: MovieContract.Source
-) : MovieContract.Presenter {
+class MovieDetailRxPresenter(
+    private val view: MovieDetailContract.View,
+    private val source: MovieDetailContract.Source
+) : MovieDetailContract.Presenter {
+
     private val subscriptions: CompositeDisposable = CompositeDisposable()
     override fun bind() {
-        loadMovies()
-    }
-
-
-    private fun loadMovies() {
         subscriptions.clear()
 
-        subscriptions += source.flowOfMovies
+        subscriptions += source.selectedMovie
             .observeOn(uiScheduler)
             .subscribe(
-                { result -> view.showMovies(result) },
+                { selectedMovie -> view.showMovie(selectedMovie) },
                 { exception -> Log.d("TESTE", exception.message) },
                 { Log.d("TESTE", "complete!") }
             )
 
-    }
-
-    override fun openMovieDetail(movie: Movie) {
-        view.showMovieDetail(movie)
     }
 
     override fun unbind() {

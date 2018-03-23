@@ -1,14 +1,16 @@
-package com.example.pedroimai.kotlinrx2.movie
+package com.example.pedroimai.kotlinrx2.movie.listing
 
 import com.example.pedroimai.kotlinrx2.application.api.StarWarsApi
+import com.example.pedroimai.kotlinrx2.movie.*
 import com.example.pedroimai.kotlinrx2.shared.ioScheduler
 import io.reactivex.Flowable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieRepository(private val api: StarWarsApi) :
-    MovieContract.Source {
+class MovieRepository(private val api: StarWarsApi,
+                      private val bus: MovieBus
+) : MovieListingContract.Source {
     override val flowOfMovies: Flowable<List<Movie>>
         get() =
             api.getRxMovies()
@@ -25,7 +27,7 @@ class MovieRepository(private val api: StarWarsApi) :
     override fun getMovies(onSuccess: (List<Movie>) -> Unit, onError: (Throwable?) -> Unit) {
         api.getMovies().enqueue(object : Callback<MovieListPayload> {
 
-            override fun onResponse(call: Call<MovieListPayload>?,response: Response<MovieListPayload>?) {
+            override fun onResponse(call: Call<MovieListPayload>?, response: Response<MovieListPayload>?) {
                 var movies = listOf<Movie>()
                 if (response?.body() != null) {
                     if (response.isSuccessful && response.body()?.isValid() == true)
@@ -40,6 +42,10 @@ class MovieRepository(private val api: StarWarsApi) :
                 onError.invoke(t)
             }
         })
+    }
+
+    override fun select(movie: Movie) {
+        bus.movie.onNext(movie)
     }
 
 }

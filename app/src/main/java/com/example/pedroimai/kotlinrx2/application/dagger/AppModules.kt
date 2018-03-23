@@ -4,7 +4,12 @@ import android.content.Context
 import com.example.pedroimai.kotlinrx2.application.MyApplication
 import com.example.pedroimai.kotlinrx2.application.api.StarWarsApi
 import com.example.pedroimai.kotlinrx2.movie.*
-import com.example.pedroimai.kotlinrx2.shared.uiScheduler
+import com.example.pedroimai.kotlinrx2.movie.detail.MovieDetailFragment
+import com.example.pedroimai.kotlinrx2.movie.detail.MovieDetailRepository
+import com.example.pedroimai.kotlinrx2.movie.detail.MovieDetailRxPresenter
+import com.example.pedroimai.kotlinrx2.movie.listing.MovieListFragment
+import com.example.pedroimai.kotlinrx2.movie.listing.MoviePresenter
+import com.example.pedroimai.kotlinrx2.movie.listing.MovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjectionModule
@@ -22,6 +27,10 @@ class CoreModule(private val app: MyApplication) {
 
     @Provides @Singleton
     fun provideApplication(): MyApplication = app
+
+
+    @Provides @Singleton
+    fun provideMovieBus():MovieBus = MovieRxBus()
 }
 
 @Module
@@ -44,26 +53,52 @@ class MovieApiModule {
 
 @Module
 abstract class ActivitiesBuilder {
-    @ContributesAndroidInjector(modules = [MovieModule::class])
+    @ContributesAndroidInjector
     abstract fun movieActivity(): MovieActivity
+
+    @ContributesAndroidInjector(modules = [MovieListingModule::class])
+    abstract fun movieListingFragment(): MovieListFragment
+
+    @ContributesAndroidInjector(modules = [MovieDetailModule::class])
+    abstract fun movieDetailFragment(): MovieDetailFragment
 }
 
-
 @Module
-class MovieModule {
-    @Provides
-    fun provideView(view: MovieActivity): MovieContract.View = view
+class MovieListingModule {
 
     @Provides
-    fun providePresenter(view: MovieContract.View, source: MovieContract.Source ): MovieContract.Presenter {
+    fun provideView(view: MovieListFragment): MovieListingContract.View = view
+
+    @Provides
+    fun providePresenter(view: MovieListingContract.View, source: MovieListingContract.Source): MovieListingContract.Presenter {
         //return MovieRxPresenter(view, source)
         return MoviePresenter(view, source)
     }
 
     @Provides
-    fun provideRespository(api: StarWarsApi): MovieContract.Source {
-        return MovieRepository(api)
+    fun provideRespository(api: StarWarsApi,bus: MovieBus): MovieListingContract.Source {
+        return MovieRepository(api, bus)
+    }
+
+}
+
+@Module
+class MovieDetailModule {
+
+
+    @Provides
+    fun provideView(view: MovieDetailFragment): MovieDetailContract.View = view
+
+    @Provides
+    fun providePresenter(view: MovieDetailContract.View, source: MovieDetailContract.Source): MovieDetailContract.Presenter {
+        return MovieDetailRxPresenter(view, source)
+    }
+
+    @Provides
+    fun provideRespository(bus: MovieBus): MovieDetailContract.Source {
+        return MovieDetailRepository(bus)
     }
 
 
 }
+

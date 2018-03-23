@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.support.v7.app.AppCompatDelegate
 import com.example.pedroimai.kotlinrx2.application.dagger.CoreComponent
+import com.example.pedroimai.kotlinrx2.application.dagger.CoreModule
 import com.example.pedroimai.kotlinrx2.application.dagger.DaggerCoreComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -33,7 +34,7 @@ class MyApplication : Application(), HasActivityInjector {
     }
 
     private fun initDependencyInjection() {
-        coreComponent = DaggerCoreComponent.builder().build()
+        coreComponent = DaggerCoreComponent.builder().coreModule(CoreModule(this)).build()
         coreComponent inject this
     }
 }

@@ -1,18 +1,25 @@
-package com.example.pedroimai.kotlinrx2.movie
+package com.example.pedroimai.kotlinrx2.movie.listing
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pedroimai.kotlinrx2.R
-import kotlinx.android.synthetic.main.movie_list_item.view.*
+import com.example.pedroimai.kotlinrx2.movie.Movie
+import kotlinx.android.synthetic.main.movie_item.view.*
 
 class MovieAdapter(private val itemClick: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     private var viewModels = mutableListOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return ViewHolder(layoutInflater.inflate(R.layout.movie_list_item, parent, false),itemClick)
+        return ViewHolder(
+            layoutInflater.inflate(
+                R.layout.movie_item,
+                parent,
+                false
+            ), itemClick
+        )
     }
 
     override fun getItemCount(): Int {
@@ -27,9 +34,7 @@ class MovieAdapter(private val itemClick: (Movie) -> Unit) : RecyclerView.Adapte
 
         fun bindMovie(movie: Movie) {
             with(itemView) {
-                title.text = movie.title
-                episode_number.text = movie.episodeNumber.toString()
-                release_date.text = movie.releaseDate
+                movie_title.text = movie.title
                 setOnClickListener { itemClick(movie) }
             }
         }
