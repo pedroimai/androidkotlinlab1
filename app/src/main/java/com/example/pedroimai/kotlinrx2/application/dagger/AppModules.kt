@@ -30,7 +30,10 @@ class CoreModule(private val app: MyApplication) {
 
 
     @Provides @Singleton
-    fun provideMovieBus():MovieBus = MovieRxBus()
+    fun provideMovieBus(): MovieBus = MovieRxBus()
+
+    @Provides @Singleton
+    fun provideMovieCache(): MovieCache = InMemoryMovieCache()
 }
 
 @Module
@@ -76,16 +79,14 @@ class MovieListingModule {
     }
 
     @Provides
-    fun provideRespository(api: StarWarsApi,bus: MovieBus): MovieListingContract.Source {
-        return MovieRepository(api, bus)
+    fun provideRespository(api: StarWarsApi, bus: MovieBus, cache:MovieCache): MovieListingContract.Source {
+        return MovieRepository(api, bus, cache)
     }
 
 }
 
 @Module
 class MovieDetailModule {
-
-
     @Provides
     fun provideView(view: MovieDetailFragment): MovieDetailContract.View = view
 
