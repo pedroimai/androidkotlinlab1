@@ -2,8 +2,8 @@ package com.example.pedroimai.kotlinrx2.movie.listing
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +22,7 @@ class MovieListFragment : Fragment(),MovieListingContract.View {
     @Inject lateinit var presenter: MovieListingContract.Presenter
     private lateinit var listAdapter: MovieAdapter
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

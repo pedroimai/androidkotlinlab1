@@ -2,7 +2,7 @@ package com.example.pedroimai.kotlinrx2.application
 
 import android.app.Activity
 import android.app.Application
-import android.support.v7.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.pedroimai.kotlinrx2.application.dagger.CoreComponent
 import com.example.pedroimai.kotlinrx2.application.dagger.CoreModule
 import com.example.pedroimai.kotlinrx2.application.dagger.DaggerCoreComponent

@@ -2,7 +2,7 @@ package com.example.pedroimai.kotlinrx2.movie.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class MovieDetailFragment : Fragment(), MovieDetailContract.View {
     @Inject lateinit var presenter: MovieDetailContract.Presenter
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

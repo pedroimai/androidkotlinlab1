@@ -1,8 +1,8 @@
 package com.example.pedroimai.kotlinrx2.movie
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.example.pedroimai.kotlinrx2.R
 import com.example.pedroimai.kotlinrx2.movie.detail.MovieDetailFragment
 import com.example.pedroimai.kotlinrx2.movie.listing.MovieListFragment
