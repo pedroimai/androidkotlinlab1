@@ -2,17 +2,16 @@ package com.example.pedroimai.kotlinrx2.movie
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.pedroimai.kotlinrx2.R
 import com.example.pedroimai.kotlinrx2.movie.detail.MovieDetailFragment
 import com.example.pedroimai.kotlinrx2.movie.listing.MovieListFragment
 import dagger.android.AndroidInjection
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.AndroidInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class MovieActivity : AppCompatActivity(), HasSupportFragmentInjector {
-    @Inject lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+class MovieActivity : AppCompatActivity() {
+  //  @Inject lateinit var fragmentDispatchingAndroidInjector: AndroidInjector<Any>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -28,6 +27,6 @@ class MovieActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
-    override fun supportFragmentInjector() = fragmentDispatchingAndroidInjector
+   // override fun androidInjector(): AndroidInjector<Any> = fragmentDispatchingAndroidInjector
 
 }

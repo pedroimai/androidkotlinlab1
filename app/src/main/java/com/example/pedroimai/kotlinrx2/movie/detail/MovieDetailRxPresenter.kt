@@ -18,9 +18,9 @@ class MovieDetailRxPresenter(
         subscriptions += source.selectedMovie
             .observeOn(uiScheduler)
             .subscribe(
-                { selectedMovie -> view.showMovie(selectedMovie) },
-                { exception -> Log.d("TESTE", exception.message) },
-                { Log.d("TESTE", "complete!") }
+                    { selectedMovie -> view.showMovie(selectedMovie) },
+                    { exception -> Log.e("TESTE", exception.message, exception) },
+                    { Log.d("TESTE", "complete!") }
             )
 
     }

@@ -14,8 +14,8 @@ class MoviePresenter(private val view: MovieListingContract.View,
 
     private fun loadMovies() {
         source.getMovies(
-            { movies -> view.showMovies(movies) },
-            { exception -> Log.e("Erro", exception?.message) }
+                { movies -> view.showMovies(movies) },
+                { exception -> Log.e("Erro", exception?.message, exception) }
         )
     }
 
