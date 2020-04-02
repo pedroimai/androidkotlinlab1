@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/StudioProjects-androidkotlinlab1.iml" filepath="$PROJECT_DIR$/StudioProjects-androidkotlinlab1.iml" group="androidkotlinlab1" />
+      <module fileurl="file://$PROJECT_DIR$/app/StudioProjects-androidkotlinlab1-app.iml" filepath="$PROJECT_DIR$/app/StudioProjects-androidkotlinlab1-app.iml" group="androidkotlinlab1/app" />
       <module fileurl="file://$PROJECT_DIR$/androidkotlinlab1.iml" filepath="$PROJECT_DIR$/androidkotlinlab1.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/androidkotlinlab1-app.iml" filepath="$PROJECT_DIR$/app/androidkotlinlab1-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
