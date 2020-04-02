@@ -1,8 +1,8 @@
 package com.example.pedroimai.kotlinrx2.movie
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.pedroimai.kotlinrx2.R
 import com.example.pedroimai.kotlinrx2.movie.detail.MovieDetailFragment
 import com.example.pedroimai.kotlinrx2.movie.listing.MovieListFragment
@@ -21,9 +21,9 @@ class MovieActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.movie_container,MovieDetailFragment()                )
-                .add(R.id.movie_list_container,MovieListFragment())
-                .commit()
+                    .add(R.id.movie_container, MovieDetailFragment())
+                    .add(R.id.movie_list_container, MovieListFragment())
+                    .commit()
 
         }
     }

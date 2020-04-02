@@ -22,12 +22,7 @@ class MovieRxPresenter(
 
         subscriptions += source.flowOfMovies
             .observeOn(uiScheduler)
-            .subscribe(
-                { result -> view.showMovies(result) },
-                { exception -> Log.d("TESTE", exception.message) },
-                { Log.d("TESTE", "complete!") }
-            )
-
+                .subscribe(view::showMovies) { Log.e("", it.message, it) }
     }
 
     override fun openMovieDetail(movie: Movie) {

@@ -1,8 +1,8 @@
 package com.example.pedroimai.kotlinrx2.movie
 
 import com.example.pedroimai.kotlinrx2.shared.BindablePresenter
-import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 
 data class Movie(val title: String, val episodeNumber: Int, val releaseDate: String)
 
@@ -17,7 +17,7 @@ interface MovieListingContract {
     }
 
     interface Source {
-        val flowOfMovies: Flowable<List<Movie>>
+        val flowOfMovies: Single<List<Movie>>
         fun getMovies(onSuccess: (List<Movie>) -> Unit, onError: (Throwable?) -> Unit)
         infix fun select(movie: Movie)
 

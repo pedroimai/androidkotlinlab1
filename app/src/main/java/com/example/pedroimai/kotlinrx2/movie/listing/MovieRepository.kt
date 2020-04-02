@@ -3,7 +3,8 @@ package com.example.pedroimai.kotlinrx2.movie.listing
 import com.example.pedroimai.kotlinrx2.application.api.StarWarsApi
 import com.example.pedroimai.kotlinrx2.movie.*
 import com.example.pedroimai.kotlinrx2.shared.ioScheduler
-import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,20 +13,20 @@ class MovieRepository(private val api: StarWarsApi,
                       private val bus: MovieBus,
                       private val cache: MovieCache
 ) : MovieListingContract.Source {
-    override val flowOfMovies: Flowable<List<Movie>>
+    override val flowOfMovies: Single<List<Movie>>
         get() =
             if(cache.isEmpty)
                 api.getRxMovies()
                     .subscribeOn(ioScheduler)
+                        .toObservable()
                     .filter { it.isValid() }
                     .map { it.body()?.results }
-                    .flatMap { moviePayload -> Flowable.fromIterable(moviePayload) }
+                        .flatMap { moviePayload -> Observable.fromIterable(moviePayload) }
                     .filter { it.isValid() }
                     .map { it.toMovie()}
                     .toList()
                     .map{movies -> cache store movies }
-                    .toFlowable()
-            else Flowable.just(cache.movies)
+            else Single.just(cache.movies)
 
 
     override fun getMovies(onSuccess: (List<Movie>) -> Unit, onError: (Throwable?) -> Unit) {
